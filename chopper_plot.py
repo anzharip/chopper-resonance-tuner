@@ -7,7 +7,7 @@
 # This file may be distributed under the terms of the GNU GPLv3 license.
 
 #################################################################################################################
-RESULTS_FOLDER = '~/printer_data/config/adxl_results/chopper_magnitude'
+RESULTS_FOLDER = '/opt/printer_data/config/adxl_results/chopper_magnitude'
 DATA_FOLDER = '/tmp/'
 #################################################################################################################
 
