@@ -1,0 +1,21 @@
+services:
+  klipper:
+    image: klipper:gsc
+    build:
+      dockerfile_inline: |
+        FROM alpine/git as download
+        WORKDIR /tmp
+        RUN git clone https://github.com/anzharip/chopper-resonance-tuner.git
+
+        FROM mkuf/klipper:latest
+
+        USER root
+        RUN apt-get update -y && apt-get install libatlas-base-dev libopenblas-dev -y
+
+        USER klipper
+        RUN venv/bin/pip install numpy tqdm plotly matplotlib
+        RUN mkdir -p ./printer_data/config/adxl_results/chopper_magnitude
+
+        COPY --chown=klipper:klipper --from=download /tmp/chopper-resonance-tuner/gcode_shell_command.py /opt/klipper/klippy/extras/
+        COPY --chown=klipper:klipper --from=download /tmp/chopper-resonance-tuner/chopper_plot.py /opt/klipper/klippy/extras/
+        COPY --chown=klipper:klipper --from=download /tmp/chopper-resonance-tuner/chopper_plot.sh /opt/klipper/klippy/extras/
